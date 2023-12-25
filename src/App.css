@@ -1,7 +1,7 @@
 /* purgecss start ignore */
-@tailwind base;
-@tailwind components;
 @import url('https://use.typekit.net/mpa1wkh.css');
+@tailwind components;
+@tailwind base;
 
 html,
 body {

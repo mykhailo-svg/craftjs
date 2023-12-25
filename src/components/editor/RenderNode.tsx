@@ -1,12 +1,12 @@
-import { useNode, useEditor } from '@craftjs/core';
-import { ROOT_NODE } from '@craftjs/utils/src';
-import React, { useEffect, useRef, useCallback } from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import { useNode, useEditor } from "@craftjs/core";
+import { ROOT_NODE } from "@craftjs/utils";
+import React, { useEffect, useRef, useCallback } from "react";
+import ReactDOM from "react-dom";
+import styled from "styled-components";
 
-import ArrowUp from '../../public/icons/arrow-up.svg';
-import Delete from '../../public/icons/delete.svg';
-import Move from '../../public/icons/move.svg';
+// import ArrowUp from "../../public/icons/arrow-up.svg";
+// import Delete from "../../public/icons/delete.svg";
+// import Move from "../../public/icons/move.svg";
 
 const IndicatorDiv = styled.div`
   height: 30px;
@@ -33,10 +33,10 @@ const Btn = styled.a`
   }
 `;
 
-export const RenderNode = ({ render }) => {
+export const RenderNode = ({ render }: any) => {
   const { id } = useNode();
   const { actions, query, isActive } = useEditor((_, query) => ({
-    isActive: query.getEvent('selected').contains(id),
+    isActive: query.getEvent("selected").contains(id),
   }));
 
   const {
@@ -47,6 +47,14 @@ export const RenderNode = ({ render }) => {
     deletable,
     connectors: { drag },
     parent,
+  }: {
+    isHover: any;
+    dom: any;
+    name: any;
+    moveable: any;
+    deletable: any;
+    connectors: any;
+    parent: any;
   } = useNode((node) => ({
     isHover: node.events.hovered,
     dom: node.dom,
@@ -61,8 +69,8 @@ export const RenderNode = ({ render }) => {
 
   useEffect(() => {
     if (dom) {
-      if (isActive || isHover) dom.classList.add('component-selected');
-      else dom.classList.remove('component-selected');
+      if (isActive || isHover) dom.classList.add("component-selected");
+      else dom.classList.remove("component-selected");
     }
   }, [dom, isActive, isHover]);
 
@@ -87,13 +95,13 @@ export const RenderNode = ({ render }) => {
 
   useEffect(() => {
     document
-      .querySelector('.craftjs-renderer')
-      .addEventListener('scroll', scroll);
+      .querySelector(".craftjs-renderer")
+      ?.addEventListener("scroll", scroll);
 
     return () => {
       document
-        .querySelector('.craftjs-renderer')
-        .removeEventListener('scroll', scroll);
+        .querySelector(".craftjs-renderer")
+        ?.removeEventListener("scroll", scroll);
     };
   }, [scroll]);
 
@@ -102,7 +110,7 @@ export const RenderNode = ({ render }) => {
       {isHover || isActive
         ? ReactDOM.createPortal(
             <IndicatorDiv
-              ref={currentRef}
+              ref={currentRef as any}
               className="px-2 py-2 text-white bg-primary fixed flex items-center"
               style={{
                 left: getPos(dom).left,
@@ -113,7 +121,8 @@ export const RenderNode = ({ render }) => {
               <h2 className="flex-1 mr-4">{name}</h2>
               {moveable ? (
                 <Btn className="mr-2 cursor-move" ref={drag}>
-                  <Move />
+                  {/* <Move /> */}
+                  move
                 </Btn>
               ) : null}
               {id !== ROOT_NODE && (
@@ -123,7 +132,8 @@ export const RenderNode = ({ render }) => {
                     actions.selectNode(parent);
                   }}
                 >
-                  <ArrowUp />
+                  {/* <ArrowUp /> */}
+                  arrup
                 </Btn>
               )}
               {deletable ? (
@@ -134,11 +144,12 @@ export const RenderNode = ({ render }) => {
                     actions.delete(id);
                   }}
                 >
-                  <Delete />
+                  {/* <Delete /> */}
+                  delete
                 </Btn>
               ) : null}
             </IndicatorDiv>,
-            document.querySelector('.page-container')
+            document.querySelector(".page-container") as any
           )
         : null}
       {render}
